@@ -24,6 +24,9 @@ app.add_middleware(
 
 @app.get("/")
 @app.get("/api")
+@app.get("/api/")
+@app.get("/api/index")
+@app.get("/api/index.py")
 async def root():
     return {"status": "ok", "message": "CyberGuard API is operational"}
 
