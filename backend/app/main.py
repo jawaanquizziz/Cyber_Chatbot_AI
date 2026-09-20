@@ -42,6 +42,16 @@ app.include_router(chat.router)
 async def api_root():
     return {"status": "ok", "message": "CyberGuard API is operational"}
 
+@app.get("/api/debug-paths")
+async def debug_paths():
+    cur = Path(__file__).resolve()
+    return {
+        "file": str(cur),
+        "cwd": os.getcwd(),
+        "cwd_files": [p.name for p in Path(".").iterdir()],
+        "task_files": [p.name for p in cur.parent.parent.parent.iterdir()] if cur.parent.parent.parent.exists() else [],
+    }
+
 # 2. Static Frontend & SPA Fallback
 dist_dir = None
 for candidate in [
