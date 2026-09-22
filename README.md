@@ -48,21 +48,63 @@ Demonstrate how NLP techniques can be applied to a practical cybersecurity use c
 
 ---
 
-## Architecture
+## 🧠 How It Works: The Architecture
 
+CyberGuard utilizes a modern, hybrid architecture combining deterministic rule-based preprocessing with advanced Large Language Model (LLM) intelligence.
+
+```mermaid
+graph TD
+    %% Styling
+    classDef frontend fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff,rx:10px,ry:10px;
+    classDef backend fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff,rx:10px,ry:10px;
+    classDef ai fill:#8b5cf6,stroke:#6d28d9,stroke-width:2px,color:#fff,rx:10px,ry:10px;
+    classDef user fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff,rx:10px,ry:10px;
+
+    %% Nodes
+    User([User Pastes Message]) ::: user
+    React[React Frontend UI] ::: frontend
+    FastAPI[FastAPI Backend Server] ::: backend
+    Preprocessor[NLP Preprocessor: Extractors] ::: backend
+    Gemini[Google Gemini 1.5 Flash LLM] ::: ai
+    Validator[Pydantic Response Validator] ::: backend
+    Response([Structured Security Assessment]) ::: user
+
+    %% Flow
+    User -->|Input Text| React
+    React -->|POST /api/analyze| FastAPI
+    FastAPI -->|Extract Regex Patterns| Preprocessor
+    Preprocessor -->|Structured Context + Prompt| Gemini
+    Gemini -->|JSON Analysis| Validator
+    Validator -->|Validated Data| FastAPI
+    FastAPI -->|JSON Response| React
+    React -->|Render Dashboard| Response
+
+    %% Subgraphs
+    subgraph Client-Side
+        User
+        React
+        Response
+    end
+
+    subgraph Server-Side
+        FastAPI
+        Preprocessor
+        Validator
+    end
+
+    subgraph External-AI
+        Gemini
+    end
 ```
-React (Vite)
-     ↓
-FastAPI Backend
-     ↓
-NLP Preprocessor (regex — URLs, emails, OTPs, urgency, credentials)
-     ↓
-Gemini 1.5 Flash (intent, category, explanation, recommendations)
-     ↓
-Response Validation (Pydantic)
-     ↓
-React (Vite)
-```
+
+### 🔍 Step-by-Step Breakdown
+
+1. **User Input:** The user pastes a suspicious message into the intuitive React interface.
+2. **Deterministic Preprocessing:** Before invoking the AI, our Python backend runs deterministic regex and pattern matching to instantly flag obvious indicators like URLs, email addresses, OTP mentions, or urgency keywords.
+3. **LLM Context Generation:** The raw message, alongside the preprocessed indicators, is wrapped into a highly engineered prompt template.
+4. **AI Analysis:** Google Gemini 1.5 Flash processes the context, utilizing its vast natural language understanding to perform intent detection and threat classification.
+5. **Strict Validation:** The LLM's output is rigidly validated against a Pydantic schema to ensure the response is perfectly formatted JSON before it hits the frontend.
+6. **Actionable Insights:** The React frontend parses the structured JSON and renders a beautiful, actionable dashboard displaying risk level, detected intent, extracted entities, and recommended safe next steps.
 
 ---
 
