@@ -1,6 +1,8 @@
 # CyberGuard
 
-**Message Security Analysis**
+<div align="center">
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=30&pause=1000&color=3B82F6&center=true&vCenter=true&width=600&lines=Message+Security+Analysis;AI-Powered+Threat+Detection;Analyze+Suspicious+Messages" alt="Typing SVG" /></a>
+</div>
 
 > Analyze suspicious messages and understand the signals behind them.
 
@@ -58,16 +60,16 @@ graph TD
     classDef frontend fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff,rx:10px,ry:10px;
     classDef backend fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff,rx:10px,ry:10px;
     classDef ai fill:#8b5cf6,stroke:#6d28d9,stroke-width:2px,color:#fff,rx:10px,ry:10px;
-    classDef user fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff,rx:10px,ry:10px;
+    classDef userCls fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff,rx:10px,ry:10px;
 
     %% Nodes
-    User([User Pastes Message]) ::: user
-    React[React Frontend UI] ::: frontend
-    FastAPI[FastAPI Backend Server] ::: backend
-    Preprocessor[NLP Preprocessor: Extractors] ::: backend
-    Gemini[Google Gemini 1.5 Flash LLM] ::: ai
-    Validator[Pydantic Response Validator] ::: backend
-    Response([Structured Security Assessment]) ::: user
+    User([User Pastes Message])
+    React[React Frontend UI]
+    FastAPI[FastAPI Backend Server]
+    Preprocessor[NLP Preprocessor: Extractors]
+    Gemini[Google Gemini 1.5 Flash LLM]
+    Validator[Pydantic Response Validator]
+    Response([Structured Security Assessment])
 
     %% Flow
     User -->|Input Text| React
@@ -95,6 +97,12 @@ graph TD
     subgraph External-AI
         Gemini
     end
+    
+    %% Apply classes
+    class User,Response userCls;
+    class React frontend;
+    class FastAPI,Preprocessor,Validator backend;
+    class Gemini ai;
 ```
 
 ### 🔍 Step-by-Step Breakdown
@@ -108,7 +116,13 @@ graph TD
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
+
+<div align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=react,vite,css,python,fastapi,gcp&perline=6" alt="Tech Stack Badges" />
+  </a>
+</div>
 
 **Frontend**
 - React 18 + Vite
