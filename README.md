@@ -222,10 +222,19 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## 📚 Academic Reference
 
-This project draws inspiration from academic research into the application of Large Language Models for threat intelligence and cybersecurity awareness.
+This project is built upon concepts and techniques from the following academic paper:
 
-> *Note: Please insert your actual academic paper reference here.*  
-> Example: Smith, J. et al. (2025). "Leveraging Local Large Language Models for Real-time Phishing Detection and User Awareness." *Journal of Cybersecurity Education*.
+> Shrivastava, N., Tewari, P., Sujatha, S., Bogireddy, S. R., Varshney, N., & Sharma, V. (2024).  
+> **"Natural Language Processing for Conversational AI: Chatbots and Virtual Assistants."**  
+> *Medicaps University / Guru Nanak College / K. Ramakrishnan College of Technology / Horizon Systems Inc / GLA University / Jiwaji University.*
+
+**Authors:**
+- Neeraj Shrivastava — Dept. of Engineering, Medicaps University, Indore, India
+- Pushpa Tewari — Dept. of Vocational Studies, Guru Nanak College, Dhanbad, India
+- S. Sujatha — Dept. of Civil Engineering, K. Ramakrishnan College of Technology, Trichy, India
+- Srinivasa Rao Bogireddy — Dept. of Software Engineering, Horizon Systems Inc, Phoenix, Arizona
+- Neeraj Varshney — Dept. of CSE, GLA University, Mathura, India
+- Vinod Sharma — Dept. of Computer Science, Jiwaji University, Gwalior, India
 
 **Model Reference:**  
 Meta AI. (2024). *Llama 3.2: Lightweight, Privacy-First Language Models.*  

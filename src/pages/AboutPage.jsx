@@ -122,6 +122,30 @@ export default function AboutPage() {
           <p>Inference: Ollama (local, fully offline — no data sent to cloud)</p>
           <p>NLP: Deterministic regex engine + Llama 3.2 structured generation</p>
         </div>
+
+        <h2 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: 'var(--space-4)', marginTop: 'var(--space-6)', color: 'var(--text)' }}>
+          Academic Reference
+        </h2>
+
+        <div
+          className="card card-sm"
+          style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', lineHeight: 1.8 }}
+        >
+          <p style={{ marginBottom: 'var(--space-3)', fontStyle: 'italic', color: 'var(--text)', fontWeight: 500 }}>
+            "Natural Language Processing for Conversational AI: Chatbots and Virtual Assistants"
+          </p>
+          <p style={{ marginBottom: 'var(--space-3)' }}>
+            Shrivastava, N., Tewari, P., Sujatha, S., Bogireddy, S. R., Varshney, N., &amp; Sharma, V.
+          </p>
+          <div style={{ borderLeft: '2px solid var(--border-hover)', paddingLeft: 'var(--space-3)' }}>
+            <p>Neeraj Shrivastava — Dept. of Engineering, Medicaps University, Indore, India</p>
+            <p>Pushpa Tewari — Dept. of Vocational Studies, Guru Nanak College, Dhanbad, India</p>
+            <p>S. Sujatha — Dept. of Civil Engineering, K. Ramakrishnan College of Technology, Trichy, India</p>
+            <p>Srinivasa Rao Bogireddy — Dept. of Software Engineering, Horizon Systems Inc, Phoenix, Arizona</p>
+            <p>Neeraj Varshney — Dept. of CSE, GLA University, Mathura, India</p>
+            <p>Vinod Sharma — Dept. of Computer Science, Jiwaji University, Gwalior, India</p>
+          </div>
+        </div>
       </div>
     </main>
   );
