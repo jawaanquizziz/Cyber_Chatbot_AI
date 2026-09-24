@@ -25,6 +25,10 @@ export async function checkHealth() {
   return request('/health');
 }
 
+export async function checkOllamaStatus() {
+  return request('/ollama/status');
+}
+
 export async function analyzeMessage(message, demoMode = false) {
   return request('/analyze', {
     method: 'POST',

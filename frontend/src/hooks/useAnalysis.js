@@ -3,11 +3,9 @@ import { analyzeMessage } from '../services/api';
 import { addHistoryEntry } from '../services/history';
 
 const STEPS = [
-  'Processing text',
-  'Detecting intent',
-  'Extracting entities',
-  'Assessing indicators',
-  'Preparing assessment',
+  'Text preprocessing',
+  'Security indicators',
+  'Generating explanation locally',
 ];
 
 export function useAnalysis() {

@@ -85,16 +85,6 @@ export default function MessageInput({ onAnalyze, onDemoMode, loading }) {
           Analyze message
         </button>
 
-        <button
-          id="demo-btn"
-          className="btn btn-secondary"
-          onClick={() => onDemoMode(message || EXAMPLES[0].message)}
-          disabled={loading}
-          title="Run analysis in demo mode (no API key required)"
-        >
-          Demo mode
-        </button>
-
         {message && (
           <button
             id="clear-btn"

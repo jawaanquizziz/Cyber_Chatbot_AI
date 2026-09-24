@@ -38,7 +38,6 @@ export default function AnalyzePage() {
         <section aria-label="Message input">
           <MessageInput
             onAnalyze={(msg) => run(msg, false)}
-            onDemoMode={handleDemoMode}
             loading={loading}
           />
 
@@ -59,7 +58,7 @@ export default function AnalyzePage() {
             <span className="assessment-header-title">Assessment</span>
             {analysis && (
               <span className="text-xs text-subtle">
-                {analysis.is_demo ? 'Demo result' : 'Live analysis'}
+                {analysis.is_ollama ? 'Ollama + Local NLP' : 'Local NLP analysis'}
               </span>
             )}
           </div>
@@ -72,7 +71,6 @@ export default function AnalyzePage() {
               <ErrorState
                 message={error}
                 onRetry={handleRetry}
-                onDemoMode={() => handleDemoMode(currentMessage || '')}
               />
             )}
             {!loading && !error && !analysis && <EmptyState />}

@@ -1,28 +1,29 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { checkHealth } from '../services/api';
+import { checkOllamaStatus } from '../services/api';
 
 export default function TopNav() {
-  const [status, setStatus] = useState({ mode: 'checking', api_configured: false });
+  const [ollamaStatus, setOllamaStatus] = useState({ available: false, model: null, checking: true });
   const navigate = useNavigate();
 
   useEffect(() => {
-    checkHealth()
-      .then(setStatus)
-      .catch(() => setStatus({ mode: 'offline', api_configured: false }));
+    checkOllamaStatus()
+      .then((res) => setOllamaStatus({ ...res, checking: false }))
+      .catch(() => setOllamaStatus({ available: false, model: null, checking: false }));
   }, []);
 
-  const dotClass =
-    status.mode === 'live' ? '' : status.mode === 'demo' ? 'demo' : 'offline';
-
-  const statusLabel =
-    status.mode === 'live'
-      ? 'Live'
-      : status.mode === 'demo'
-      ? 'Demo Mode'
-      : status.mode === 'checking'
-      ? 'Connecting...'
-      : 'Offline';
+  let statusLabel = 'Checking...';
+  let dotClass = '';
+  
+  if (!ollamaStatus.checking) {
+    if (ollamaStatus.available) {
+      statusLabel = 'OLLAMA: Connected';
+      dotClass = 'live';
+    } else {
+      statusLabel = 'OLLAMA: Unavailable — Local NLP active';
+      dotClass = 'demo';
+    }
+  }
 
   return (
     <nav className="topnav" role="navigation" aria-label="Main navigation">
@@ -34,7 +35,7 @@ export default function TopNav() {
           aria-label="CyberGuard home"
         >
           <span className="topnav-logo">CyberGuard</span>
-          <span className="topnav-tagline">Message Security Analysis</span>
+          <span className="topnav-tagline">Prototype cybersecurity awareness tool</span>
         </button>
 
         <div className="topnav-right">
@@ -70,18 +71,27 @@ export default function TopNav() {
             className="status-indicator"
             role="status"
             aria-label={`System status: ${statusLabel}`}
+            onClick={() => {
+              if (window.confirm("Open Developer Settings?")) {
+                const url = prompt("Ollama URL:", "http://localhost:11434");
+                const model = prompt("Ollama Model:", "llama3.2:3b");
+                if (url && model) {
+                  fetch('/api/ollama/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url, model, enabled: true })
+                  }).then(() => window.location.reload());
+                }
+              }
+            }}
+            style={{ cursor: 'pointer' }}
+            title="Click to configure Ollama"
           >
             <span className={`status-dot ${dotClass}`} />
             {statusLabel}
           </div>
         </div>
       </div>
-
-      {status.mode === 'demo' && (
-        <div className="demo-banner" role="alert">
-          Running in Demo Mode — add a Gemini API key to enable live analysis
-        </div>
-      )}
     </nav>
   );
 }

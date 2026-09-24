@@ -1,9 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from app.models.schemas import ChatRequest, ChatResponse
-from app.services import gemini_service, demo_service
+from app.services import local_nlp_engine, ollama_service
 
 router = APIRouter()
-
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
@@ -12,16 +11,18 @@ async def chat(request: ChatRequest):
     if not question:
         raise HTTPException(status_code=422, detail="Question cannot be empty.")
 
-    use_demo = not gemini_service.is_configured()
-
-    if use_demo:
-        answer = demo_service.get_demo_chat_response(question)
-        return ChatResponse(answer=answer, is_demo=True)
-
+    is_ollama = False
+    
     try:
-        answer = await gemini_service.chat_response(question, request.analysis_context)
-        return ChatResponse(answer=answer, is_demo=False)
-    except Exception:
-        # Fallback to demo chat on any API failure
-        answer = demo_service.get_demo_chat_response(question)
-        return ChatResponse(answer=answer, is_demo=True)
+        ollama_status = await ollama_service.check_status()
+        if ollama_status.get("available"):
+            answer = await ollama_service.chat_response(question, request.analysis_context)
+            if answer:
+                is_ollama = True
+                return ChatResponse(answer=answer, is_demo=False, is_ollama=True)
+    except Exception as e:
+        print(f"Ollama chat failed, falling back to local NLP: {e}")
+        
+    # Fallback to local response generator
+    answer = local_nlp_engine.get_local_chat_response(question)
+    return ChatResponse(answer=answer, is_demo=False, is_ollama=False)

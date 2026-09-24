@@ -27,13 +27,15 @@ class AnalyzeRequest(BaseModel):
 class AnalyzeResponse(BaseModel):
     category: str
     risk_level: RiskLevel
+    risk_score: Optional[int] = None
     intent: str
-    intent_explanation: str
+    intent_explanation: Optional[str] = None
     entities: List[Entity]
     indicators: List[Indicator]
     recommended_actions: List[str]
     explanation: str
     is_demo: bool = False
+    is_ollama: bool = False
     preprocessed: Optional[dict] = None
 
 
@@ -45,3 +47,4 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
     is_demo: bool = False
+    is_ollama: bool = False

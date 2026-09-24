@@ -1,4 +1,4 @@
-export default function ErrorState({ message, onRetry, onDemoMode }) {
+export default function ErrorState({ message, onRetry }) {
   return (
     <div className="error-state" role="alert">
       <p className="error-title">Analysis could not be completed</p>
@@ -9,11 +9,6 @@ export default function ErrorState({ message, onRetry, onDemoMode }) {
         {onRetry && (
           <button className="btn btn-secondary btn-sm" onClick={onRetry} id="retry-btn">
             Try again
-          </button>
-        )}
-        {onDemoMode && (
-          <button className="btn btn-ghost btn-sm" onClick={onDemoMode} id="use-demo-btn">
-            Use demo mode
           </button>
         )}
       </div>

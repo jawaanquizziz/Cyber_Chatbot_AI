@@ -1,251 +1,245 @@
-# CyberGuard
-
 <div align="center">
-  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=30&pause=1000&color=3B82F6&center=true&vCenter=true&width=600&lines=Message+Security+Analysis;AI-Powered+Threat+Detection;Analyze+Suspicious+Messages" alt="Typing SVG" /></a>
+  <img src="https://img.icons8.com/color/96/000000/security-checked--v1.png" alt="CyberGuard Logo" width="80" height="80">
+  <h1 align="center">CyberGuard</h1>
+  
+  <p align="center">
+    <strong>An Academic Prototype for AI-Powered Message Security Analysis</strong>
+    <br />
+    <i>Empowering users with Local NLP and Conversational AI to detect and understand digital threats.</i>
+  </p>
+
+  <p align="center">
+    <a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=react,vite,css,python,fastapi&perline=5" alt="Tech Stack Badges" /></a>
+  </p>
 </div>
 
-> Analyze suspicious messages and understand the signals behind them.
+---
 
-CyberGuard is an academic prototype demonstrating how Natural Language Processing and conversational AI can support cybersecurity awareness. It analyzes suspicious messages and produces a structured security assessment — identifying intent, extracting entities, explaining flagged signals, and suggesting safe next steps.
+## 📖 Overview
+
+In today's digital landscape, users frequently receive suspicious communications—phishing attempts, fake job offers, delivery scams, and impersonation messages. **CyberGuard** is an academic prototype demonstrating how Natural Language Processing (NLP) and Large Language Models (LLMs) can support cybersecurity awareness.
+
+Instead of relying on cloud APIs that might compromise user privacy, CyberGuard utilizes a **Hybrid Local Architecture**:
+1. A **Deterministic Local NLP Engine** ensures reliable extraction of threat indicators (URLs, phone numbers, OTP requests).
+2. An optional **Local Ollama LLM** provides deep contextual explanation, intent detection, and conversational Q&A without sending sensitive messages over the internet.
 
 ---
 
-## Problem
+## 🤖 AI Model — Llama 3.2 3B (via Ollama)
 
-Users frequently receive suspicious messages — phishing attempts, fake job offers, delivery scams, and impersonation messages — and lack the tools to quickly evaluate them before acting.
+CyberGuard uses **Meta's Llama 3.2 (3 Billion parameter variant)** served locally through **Ollama**.
 
-## Objective
-
-Demonstrate how NLP techniques can be applied to a practical cybersecurity use case: analyzing message content to help users make informed decisions before responding or clicking.
-
----
-
-## Features
-
-- Paste any suspicious message and receive a structured security assessment
-- Detected intent with explanation
-- Extracted entities (URLs, organizations, monetary values, OTPs, etc.)
-- Flagged indicators with explanations
-- Risk level: LOW / MEDIUM / HIGH
-- Recommended next steps
-- Follow-up conversational Q&A using the current analysis as context
-- Analysis history stored locally in browser
-- Security guide reference documentation
-- Demo mode — fully functional without a Gemini API key
-- Responsive design — works on desktop, tablet, and mobile
-
----
-
-## NLP Concepts Demonstrated
-
-| NLP Concept | CyberGuard Implementation |
+| Property | Details |
 |---|---|
-| Natural Language Understanding | Understands message meaning and security context |
-| Intent Detection | Identifies likely purpose of the message |
-| Entity Extraction | Extracts URLs, organizations, OTPs, money, etc. |
-| Contextual Interaction | Follow-up questions use the current analysis |
-| Information Retrieval | Uses a local cybersecurity knowledge base |
-| AI Response Generation | Produces structured explanation and recommendations |
-| Task-oriented Dialogue | Guides the user toward safe next actions |
+| **Model Name** | `llama3.2:3b` |
+| **Developer** | Meta AI |
+| **Model Family** | Llama 3.2 |
+| **Architecture** | Transformer Decoder (Causal LM) |
+| **Parameters** | 3.21 Billion |
+| **Context Window** | 128,000 tokens |
+| **Model Type** | Instruction-tuned Large Language Model (LLM) |
+| **Quantization** | Q4_K_M (4-bit quantized for local efficiency) |
+| **Inference Engine** | Ollama (`/api/generate` endpoint) |
+| **Runs Entirely Locally** | Yes — no data leaves your machine |
+| **VRAM Required** | ~2 GB GPU / runs on CPU too |
+
+### Why Llama 3.2 3B?
+
+- **Privacy-first:** All inference happens on your local machine. No messages are sent to external cloud APIs.
+- **Lightweight:** At 3B parameters, it runs comfortably on consumer hardware (CPU or GPU).
+- **Instruction-tuned:** Fine-tuned to follow natural language instructions, making it ideal for structured JSON output and conversational tasks.
+- **128K context window:** Can handle long messages with full chat history context.
+
+### How It Is Used in CyberGuard
+
+The model is called in **two distinct modes**:
+
+1. **Analysis Mode** — Given the raw message + pre-extracted indicators (from the local NLP engine), the model returns a structured JSON with:
+   - `intent` (e.g., "Credential Theft via Urgency")
+   - `category` (e.g., "Potential Phishing")
+   - `explanation` (2–3 sentence contextual summary)
+
+2. **Chat Mode** — Given the analysis context + user question, the model generates a plain-text conversational response to follow-up questions like *"What should I do next?"*
 
 ---
 
-## 🧠 How It Works: The Architecture
+## ⚙️ Tech Stack
 
-CyberGuard utilizes a modern, hybrid architecture combining deterministic rule-based preprocessing with advanced Large Language Model (LLM) intelligence.
+### Frontend
+
+| Technology | Version | Purpose |
+|---|---|---|
+| **React** | 18 | UI component library |
+| **React Router DOM** | v7 | Client-side routing (SPA) |
+| **Vite** | 8 | Dev server & build tool |
+| **Vanilla CSS** | — | Custom design system (dark mode, glassmorphism) |
+
+### Backend
+
+| Technology | Version | Purpose |
+|---|---|---|
+| **Python** | 3.10+ | Runtime |
+| **FastAPI** | Latest | REST API framework (async) |
+| **Pydantic v2** | Latest | Request/response validation & schemas |
+| **Uvicorn** | Latest | ASGI server |
+| **httpx** | Latest | Async HTTP client (talks to Ollama) |
+| **python-dotenv** | Latest | Environment variable management |
+
+### AI / NLP Layer
+
+| Technology | Role |
+|---|---|
+| **Ollama** | Local LLM inference engine |
+| **Llama 3.2 3B** (`llama3.2:3b`) | Core language model — intent detection, contextual explanation, Q&A |
+| **Deterministic NLP Engine** | Python regex rules — URL/phone/OTP/urgency detection (no model needed) |
+
+### Dev Tooling
+
+| Tool | Purpose |
+|---|---|
+| **concurrently** | Runs backend + frontend simultaneously with `npm run dev:all` |
+| **TypeScript** | Type safety in frontend |
+
+---
+
+## 🧠 Architecture
+
+CyberGuard is designed to operate securely and efficiently. The architecture guarantees a fallback if the LLM is unavailable, ensuring the application remains resilient.
 
 ```mermaid
 graph TD
-    %% Styling
-    classDef frontend fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff,rx:10px,ry:10px;
-    classDef backend fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff,rx:10px,ry:10px;
-    classDef ai fill:#8b5cf6,stroke:#6d28d9,stroke-width:2px,color:#fff,rx:10px,ry:10px;
-    classDef userCls fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff,rx:10px,ry:10px;
+    classDef frontend fill:#2563eb,stroke:#1e40af,stroke-width:2px,color:#fff;
+    classDef backend fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff;
+    classDef ai fill:#6366f1,stroke:#4338ca,stroke-width:2px,color:#fff;
 
-    %% Nodes
-    User([User Pastes Message])
-    React[React Frontend UI]
-    FastAPI[FastAPI Backend Server]
-    Preprocessor[NLP Preprocessor: Extractors]
-    Gemini[Google Gemini 1.5 Flash LLM]
-    Validator[Pydantic Response Validator]
-    Response([Structured Security Assessment])
-
-    %% Flow
-    User -->|Input Text| React
-    React -->|POST /api/analyze| FastAPI
-    FastAPI -->|Extract Regex Patterns| Preprocessor
-    Preprocessor -->|Structured Context + Prompt| Gemini
-    Gemini -->|JSON Analysis| Validator
-    Validator -->|Validated Data| FastAPI
-    FastAPI -->|JSON Response| React
-    React -->|Render Dashboard| Response
-
-    %% Subgraphs
-    subgraph Client-Side
-        User
-        React
-        Response
-    end
-
-    subgraph Server-Side
-        FastAPI
-        Preprocessor
-        Validator
-    end
-
-    subgraph External-AI
-        Gemini
-    end
+    User([User Pastes Message]) --> React[React Frontend UI]
+    React -->|POST /api/analyze| FastAPI[FastAPI Backend]
     
-    %% Apply classes
-    class User,Response userCls;
+    FastAPI -->|Extract Indicators| LocalEngine[Deterministic NLP Engine]
+    FastAPI -->|Analyze Context| Ollama[Ollama - Llama 3.2 3B]
+    
+    LocalEngine -->|Risk Score and Entities| Compiler{JSON Assembler}
+    Ollama -->|Intent and Explanation| Compiler
+    
+    Compiler -->|Structured JSON| React
+    React -->|Render Assessment| Output([Dashboard View])
+
     class React frontend;
-    class FastAPI,Preprocessor,Validator backend;
-    class Gemini ai;
+    class FastAPI,LocalEngine,Compiler backend;
+    class Ollama ai;
 ```
 
-### 🔍 Step-by-Step Breakdown
+### Fallback Strategy
 
-1. **User Input:** The user pastes a suspicious message into the intuitive React interface.
-2. **Deterministic Preprocessing:** Before invoking the AI, our Python backend runs deterministic regex and pattern matching to instantly flag obvious indicators like URLs, email addresses, OTP mentions, or urgency keywords.
-3. **LLM Context Generation:** The raw message, alongside the preprocessed indicators, is wrapped into a highly engineered prompt template.
-4. **AI Analysis:** Google Gemini 1.5 Flash processes the context, utilizing its vast natural language understanding to perform intent detection and threat classification.
-5. **Strict Validation:** The LLM's output is rigidly validated against a Pydantic schema to ensure the response is perfectly formatted JSON before it hits the frontend.
-6. **Actionable Insights:** The React frontend parses the structured JSON and renders a beautiful, actionable dashboard displaying risk level, detected intent, extracted entities, and recommended safe next steps.
-
----
-
-## 🛠️ Tech Stack
-
-<div align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=react,vite,css,python,fastapi,gcp&perline=6" alt="Tech Stack Badges" />
-  </a>
-</div>
-
-**Frontend**
-- React 18 + Vite
-- React Router v6
-- Vanilla CSS (no framework)
-
-**Backend**
-- Python 3.10+
-- FastAPI
-- Google Gemini 1.5 Flash (`google-generativeai`)
-- Pydantic v2
+```
+User Request
+    ↓
+Local NLP Engine (always runs — extracts URLs, phone numbers, keywords)
+    ↓
+Ollama Available?
+  YES → Llama 3.2 3B enriches with intent + explanation (full analysis)
+  NO  → Local NLP result only (risk score + raw indicators still returned)
+```
 
 ---
 
-## Setup
+## 🔬 Working Mechanism
+
+1. **Input Reception:** The user pastes a suspicious SMS, email, or chat message.
+2. **Deterministic Preprocessing:** A Python-based rule engine instantly scans for known threat signatures (urgency keywords, OTP patterns, malicious APK extensions, money requests).
+3. **Contextual Augmentation:** The extracted indicators are bundled with the raw text and sent to the local Ollama LLM.
+4. **AI Assessment:** Llama 3.2 3B evaluates the psychological intent of the message and returns structured JSON.
+5. **Synthesis:** The deterministic facts and the AI's contextual explanation are merged into a single structured response.
+6. **Conversational Follow-up:** The user can interact with the AI in real-time to ask follow-up questions about the analysis.
+
+---
+
+## 📊 Sample Output
+
+**Example Scenario (Banking Scam):**
+* **Input Message:** `"URGENT: Your HDFC account will be suspended today. Please verify your OTP immediately at http://suspicious-link.com to avoid closure."`
+* **Detected Risk:** `HIGH`
+* **Intent:** Credential Theft via Artificial Urgency
+* **Indicators Found:**
+  - *Urgency:* "suspended today", "immediately"
+  - *OTP Request:* Attempt to bypass 2FA
+  - *Suspicious URL:* Redirects outside official domains
+* **System Recommendation:** Do not click the link or provide the OTP. Contact your bank directly.
+
+---
+
+## 🚀 Setup & Installation
 
 ### Prerequisites
-
 - Node.js 18+
 - Python 3.10+
-- A Gemini API key (free at [aistudio.google.com](https://aistudio.google.com)) — optional, app runs in demo mode without it
+- [Ollama](https://ollama.com/) installed
 
-### 1. Clone the repository
+### 1. Download the AI Model
 
 ```bash
-git clone <repo-url>
+ollama pull llama3.2:3b
+```
+
+> This downloads the ~2 GB quantized model file to your local machine. Run once.
+
+### 2. Clone & Install Dependencies
+
+```bash
+git clone <repository-url>
 cd ai_chatbot_cia
-```
 
-### 2. Configure environment
-
-```bash
-cp .env.example backend/.env
-# Edit backend/.env and add your GEMINI_API_KEY
-```
-
-### 3. Install backend dependencies
-
-```bash
-cd backend
-python -m venv .venv
-.venv\Scripts\activate     # Windows
-# source .venv/bin/activate  # macOS/Linux
-pip install -r requirements.txt
-```
-
-### 4. Install frontend dependencies
-
-```bash
-cd frontend
+# Install Node dependencies
 npm install
-```
 
----
-
-## Running Locally
-
-### Start backend
-
-```bash
+# Install Python dependencies
 cd backend
-.venv\Scripts\activate
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+pip install -r ../requirements.txt
+cd ..
 ```
 
-### Start frontend (separate terminal)
+### 3. Configure Environment
 
 ```bash
-cd frontend
-npm run dev
+# Edit backend/.env if needed (defaults work for local dev)
+# OLLAMA_BASE_URL=http://localhost:11434
+# OLLAMA_MODEL=llama3.2:3b
+# OLLAMA_ENABLED=true
 ```
 
-Open [http://localhost:5173](http://localhost:5173)
+### 4. Run Everything
+
+```bash
+# Starts both FastAPI backend (port 8000) and Vite frontend (port 5173)
+npm run dev:all
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+> **Tip:** Keep `ollama run llama3.2:3b` running in a separate terminal for best results.
 
 ---
 
-## Environment Variables
+## 📚 Academic Reference
 
-| Variable | Description | Required |
-|---|---|---|
-| `GEMINI_API_KEY` | Google Gemini API key | No — app uses demo mode if absent |
+This project draws inspiration from academic research into the application of Large Language Models for threat intelligence and cybersecurity awareness.
 
----
+> *Note: Please insert your actual academic paper reference here.*  
+> Example: Smith, J. et al. (2025). "Leveraging Local Large Language Models for Real-time Phishing Detection and User Awareness." *Journal of Cybersecurity Education*.
 
-## API Endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/health` | System status and API configuration |
-| POST | `/api/analyze` | Analyze a message |
-| POST | `/api/chat` | Follow-up question with analysis context |
-
-Interactive API docs: [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
+**Model Reference:**  
+Meta AI. (2024). *Llama 3.2: Lightweight, Privacy-First Language Models.*  
+https://ai.meta.com/blog/llama-3-2-connect-2024-vision-edge-mobile-devices/
 
 ---
 
-## Demo Mode
+## 👨‍🎓 Student Details
 
-CyberGuard includes a full demo mode with pre-built analysis results for five message types:
+**Project Title:** CyberGuard — AI-Powered Message Security Analysis  
+**Developed By:**  
+- **[Your Name]** (Roll No: [Your Roll No])  
+- **[Partner Name]** (Roll No: [Partner Roll No])  
 
-- Banking phishing → HIGH risk
-- Job scam → HIGH risk
-- Delivery scam → MEDIUM risk
-- Malware message → HIGH risk
-- Benign college reminder → LOW risk
-
-Demo mode is automatically enabled when no Gemini API key is configured.
-
----
-
-## Limitations
-
-- CyberGuard provides an AI-assisted assessment and should not be treated as definitive proof that a message is malicious or safe.
-- The system may produce false positives on legitimate urgent messages.
-- Novel phishing techniques may not be detected.
-- Detection accuracy is not measured or claimed.
-
----
-
-## Future Improvements
-
-- Multi-language message support
-- Browser extension for inline message checking
-- Batch analysis mode
-- User-reported feedback for improving patterns
-- Integration with threat intelligence feeds
+**Course:** [Your Course Name / Degree]  
+**Institution:** [Your College/University Name]  
+**Guided By:** [Your Professor/Guide Name]  

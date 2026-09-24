@@ -81,9 +81,9 @@ export default function AboutPage() {
             '↓',
             'FastAPI Backend',
             '↓',
-            'NLP Preprocessor (regex)',
+            'Deterministic NLP Engine (regex)',
             '↓',
-            'Gemini 1.5 Flash',
+            'Ollama — Llama 3.2 3B (local LLM)',
             '↓',
             'Validated JSON Response',
             '↓',
@@ -116,9 +116,11 @@ export default function AboutPage() {
           <p style={{ marginBottom: 'var(--space-2)' }}>
             <strong style={{ color: 'var(--text)' }}>Tech stack</strong>
           </p>
-          <p>Frontend: React, Vite, React Router</p>
-          <p>Backend: Python, FastAPI, Google Gemini 1.5 Flash</p>
-          <p>NLP: Regex preprocessing + Gemini structured generation</p>
+          <p>Frontend: React 18, Vite, React Router v7, Vanilla CSS</p>
+          <p>Backend: Python 3.10+, FastAPI, Pydantic v2, Uvicorn</p>
+          <p>AI Model: Llama 3.2 3B — 3.21B params, 128K context, Q4_K_M quantized</p>
+          <p>Inference: Ollama (local, fully offline — no data sent to cloud)</p>
+          <p>NLP: Deterministic regex engine + Llama 3.2 structured generation</p>
         </div>
       </div>
     </main>
